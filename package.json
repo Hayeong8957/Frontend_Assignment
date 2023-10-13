@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.36.1",
+    "@types/uuid": "^9.0.5",
     "next": "^12.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.0.8"
+    "react-loader-spinner": "^5.4.5",
+    "styled-components": "^6.0.8",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.36.1",

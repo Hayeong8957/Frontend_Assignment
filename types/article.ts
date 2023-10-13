@@ -29,7 +29,7 @@ export interface Byline {
 
 export interface Headline {
   main: string; // 헤드라인
-  kicker: string; // 작성자
+  kicker: string;
   content_kicker: string;
   print_headline: string;
   name: string;

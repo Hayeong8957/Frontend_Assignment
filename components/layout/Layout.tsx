@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import color from '@/styles/color';
-import Header from '@/components/common/Header';
-import Main from '../main/Main';
-import Menu from '@/components/common/Menu';
+import Header from '@/components/layout/Header';
+import Main from '@/components/layout/Main';
+import Menu from '@/components/layout/Menu';
 
 function Layout() {
   return (

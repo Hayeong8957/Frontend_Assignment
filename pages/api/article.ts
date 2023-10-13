@@ -12,12 +12,15 @@ const fetchClient = async (url: string, options: RequestInit) => {
   });
 };
 
-export const getAllArticles = async (): Promise<IArticle[] | null> => {
-  const q = 'Manchin';
+// 모든 Article 데이터 가져오기 -> 무한스크롤으로 구현하기 위해 page
+export const getArticles = async ({  pageParam = 0 }): Promise<IArticle[] | null> => {
   try {
-    const allArticlesData = await fetchClient(`${BASE_URL}?q=${q}&api-key=${process.env.NEXT_PUBLIC_API_KEY}`, {
-      method: 'GET',
-    });
+    const allArticlesData = await fetchClient(
+      `${BASE_URL}?page=${pageParam}&api-key=${process.env.NEXT_PUBLIC_API_KEY}`,
+      {
+        method: 'GET',
+      },
+    );
 
     if (allArticlesData.ok) {
       const allArticlesJson = await allArticlesData.json();

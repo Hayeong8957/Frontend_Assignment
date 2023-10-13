@@ -12,9 +12,7 @@ function Main() {
 export default Main;
 
 export const SLayout = styled.div`
-  height: calc(100% - 3.75rem);
+  height: 100%;
   display: flex;
   justify-content: center;
-  overflow-y: auto;
-  margin-bottom: 5.3125rem;
 `;

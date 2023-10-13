@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Search from '@/public/assets/search.svg';
 import Calender from '@/public/assets/calendar-check.svg';
+import FilterBox from '@/components/common/FilterBox';
 
 interface EachFilter {
   title: string;
@@ -48,14 +49,10 @@ function Header() {
 
   return (
     <SLayout>
-      {filterData.map(filter => (
-        <SEachFilterDiv key={filter.id}>
-          {filter.data[Object.keys(filter.data)[0]].image && (
-            <Image src={filter.data[Object.keys(filter.data)[0]].image} alt='search' width={16} height={16} />
-          )}
-          <span>{filter.data[Object.keys(filter.data)[0]].title}</span>
-        </SEachFilterDiv>
-      ))}
+      {filterData.map(filter => {
+        const key = Object.keys(filter.data)[0];
+        return <FilterBox key={filter.id} type='headerFilter' {...filter.data[key]} />;
+      })}
     </SLayout>
   );
 }
@@ -72,21 +69,6 @@ export const SLayout = styled.header`
   flex-direction: row;
   align-items: center;
   background-color: white;
+  box-shadow: 0 4px 6px 0 rgba(0, 28, 36, 0.1);
   z-index: 10;
-`;
-
-export const SEachFilterDiv = styled.div`
-  max-width: 8.125rem;
-  height: 2.125rem;
-  padding: 0.3125rem 0.75rem 0.3125rem 0.75rem;
-  margin-right: 0.4375rem;
-  padding-right: 0.75rem;
-  border-radius: 1.875rem;
-  border: 1px #c4c4c4 solid;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  display: inline-flex;
-  font-size: 14px;
-  color: #6d6d6d;
 `;
