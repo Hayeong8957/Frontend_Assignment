@@ -1,20 +1,11 @@
 const color = {
+  bgGray: '#F0F1F4',
   black: '#000000',
-  fontblack: '#16191f',
-  fontgray: '#687078',
-  navborder: '#d5dbdb',
-  inputborder: '#85909b',
-
-  gray1: '#333333',
-  gray2: '#4f4f4f',
-  gray3: '#828282',
-  gray4: '#bdbdbd',
-  gray5: '#e0e0e0',
-  gray6: '#f2f2f2',
-  searchBlue: '#0e386b',
-  totalResultBlue: '#aff',
-  border: '#eaeded',
-  headergray: '#fafafa',
+  iconGray: '#6D6D6D',
+  blue: '#3478F6',
+  yellow: '#FFB800',
+  lightGray: '#C4C4C4',
+  skyBlue: '#82B0F4',
 };
 
 export default color;

@@ -1,4 +1,4 @@
-export interface Article {
+export interface IArticle {
   abstract: string;
   web_url: string; // 웹 링크
   snippet: string;

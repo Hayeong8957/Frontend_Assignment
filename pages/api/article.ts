@@ -1,4 +1,4 @@
-import { Article } from '@/types/article';
+import { IArticle } from '@/types/article';
 
 const BASE_URL = '/api-url';
 
@@ -12,7 +12,7 @@ const fetchClient = async (url: string, options: RequestInit) => {
   });
 };
 
-export const getAllArticles = async (): Promise<Article[] | null> => {
+export const getAllArticles = async (): Promise<IArticle[] | null> => {
   const q = 'Manchin';
   try {
     const allArticlesData = await fetchClient(`${BASE_URL}?q=${q}&api-key=${process.env.NEXT_PUBLIC_API_KEY}`, {
