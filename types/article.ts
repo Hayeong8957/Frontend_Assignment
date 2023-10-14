@@ -1,3 +1,8 @@
+export interface IAPIReturnData {
+  articles: IArticle[];
+  nextPage: number;
+}
+
 export interface IArticle {
   abstract: string;
   web_url: string; // 웹 링크

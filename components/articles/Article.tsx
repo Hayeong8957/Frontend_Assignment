@@ -1,24 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Star from '@/public/assets/star-fill.svg';
+import StarFill from '@/public/assets/star-fill.svg';
+import Star from '@/public/assets/star.svg';
 import formatDate from '@/utils/formatDate';
+import { useScrappedStore } from '@/stores/scrappedList';
 
 interface ArticleProps {
+  _id: string;
   headline: string;
   source: string;
   kicker: string;
   pub_date: string;
   web_url: string;
+  isScrapped: boolean;
 }
 
-function Article({ headline, source, kicker, pub_date, web_url }: ArticleProps) {
+function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped }: ArticleProps) {
+  const { addScrap, removeScrap } = useScrappedStore();
+
+  const handleScrapToggle = () => {
+    if (isScrapped) {
+      removeScrap(_id);
+    } else {
+      addScrap(_id);
+    }
+  };
+
   return (
     <SLayout>
       <STitleDiv>
         <STitleText>{headline}</STitleText>
-        <SIconBox>
-          <Image src={Star} alt='star' width={16} height={16} />
+        <SIconBox onClick={handleScrapToggle}>
+          {isScrapped && <Image src={StarFill} alt='starFill' width={16} height={16} />}
+          {!isScrapped && <Image src={Star} alt='star' width={16} height={16} />}
         </SIconBox>
       </STitleDiv>
       <SInfoDiv>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import HomeIcon from '@/public/assets/ico_Home.svg';
 import HomeIconGray from '@/public/assets/ico_Home_gray.svg';
 import ScrapIcon from '@/public/assets/ico_Sheet_Line.svg';
 import ScrapIconGray from '@/public/assets/ico_Sheet_Line_gray.svg';
+import { useMenuStore } from '@/stores/menu';
 
 const menuContents = [
   {
@@ -22,7 +23,7 @@ const menuContents = [
 ];
 
 function Menu() {
-  const [focusedMenu, setFocusedMenu] = useState(1);
+  const { focusedMenu, setFocusedMenu } = useMenuStore();
 
   const handleMenuClick = (id: number) => {
     setFocusedMenu(id);

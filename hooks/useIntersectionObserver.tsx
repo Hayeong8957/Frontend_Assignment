@@ -8,20 +8,32 @@ interface IuseIntersectionObserverProps {
   fetchNextPage: () => Promise<InfiniteQueryObserverResult>;
 }
 
-function useIntersectionObserver({ threshold = 0.1, hasNextPage, fetchNextPage }: IuseIntersectionObserverProps) {
-  //관찰할 요소입니다. 스크롤 최하단 div요소에 setTarget을 ref로 넣어 사용할 것입니다.
+function useIntersectionObserver({ threshold = 0.3, hasNextPage, fetchNextPage }: IuseIntersectionObserverProps) {
+  //스크롤 최하단 div요소에 setTarget을 ref로 넣어 사용
   const [target, setTarget] = useState<HTMLDivElement | null | undefined>(null);
-
-  const observerCallback: IntersectionObserverCallback = entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    });
-  };
 
   useEffect(() => {
     if (!target) return;
+
+    let debounceTimer: NodeJS.Timeout;
+
+    const observerCallback: IntersectionObserverCallback = entries => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && hasNextPage) {
+            fetchNextPage();
+          }
+        });
+      }, 300); // 300ms 디바운스
+    };
+    // const observerCallback: IntersectionObserverCallback = entries => {
+    //   entries.forEach(entry => {
+    //     if (entry.isIntersecting && hasNextPage) {
+    //       fetchNextPage();
+    //     }
+    //   });
+    // };
 
     //ointersection observer 인스턴스 생성
     const observer = new IntersectionObserver(observerCallback, {
@@ -33,7 +45,7 @@ function useIntersectionObserver({ threshold = 0.1, hasNextPage, fetchNextPage }
 
     // 관찰 멈춤
     return () => observer.unobserve(target);
-  }, [observerCallback, threshold, target]);
+  }, [threshold, target, hasNextPage, fetchNextPage]);
 
   return { setTarget };
 }

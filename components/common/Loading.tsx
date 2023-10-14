@@ -1,22 +1,22 @@
 import React from 'react';
-import { MutatingDots } from 'react-loader-spinner';
+import { RotatingLines } from 'react-loader-spinner';
+import styled from 'styled-components';
 
 function Loading() {
   return (
-    <>
-      <MutatingDots
-        height='30'
-        width='30'
-        color='#3478F6'
-        secondaryColor='#3478F6'
-        radius='12.5'
-        ariaLabel='mutating-dots-loading'
-        wrapperStyle={{}}
-        wrapperClass=''
-        visible={true}
-      />
-    </>
+    <SLayout>
+      <RotatingLines strokeColor='grey' strokeWidth='5' animationDuration='0.75' width='30' visible={true} />
+    </SLayout>
   );
 }
 
 export default Loading;
+
+const SLayout = styled.div`
+  width: 100%;
+  height: 1.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.625rem;
+`;
