@@ -1,6 +1,8 @@
 import React from 'react';
 import { getArticles } from '@/pages/api/article';
-import Article from './Article';
+import Article from '@/components/articles/Article';
+import NoScrapped from '@/components/layout/NoScrapped';
+
 import styled from 'styled-components';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -61,6 +63,7 @@ function ArticleList() {
           </div>
         ) : (
           <div>
+            {scrappedIds.length === 0 && <NoScrapped />}
             {data?.pages.map(page => (
               <div key={uuidv4()}>
                 {page?.articles

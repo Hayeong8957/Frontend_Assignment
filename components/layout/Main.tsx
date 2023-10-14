@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ArticleList from '@/components/articles/ArticleList';
+
 function Main() {
   return (
     <SLayout>

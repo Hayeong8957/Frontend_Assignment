@@ -4,11 +4,16 @@ import color from '@/styles/color';
 import Header from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
 import Menu from '@/components/layout/Menu';
+import { useScrappedStore } from '@/stores/scrappedList';
+import { useMenuStore } from '@/stores/menu';
 
 function Layout() {
+  const { scrappedIds } = useScrappedStore();
+  const { focusedMenu } = useMenuStore();
+
   return (
     <SContainer>
-      <Header />
+      {(scrappedIds.length > 0 || focusedMenu == 1) && <Header />}
       <Main />
       <Menu />
     </SContainer>
