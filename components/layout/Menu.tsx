@@ -6,6 +6,7 @@ import HomeIconGray from '@/public/assets/ico_Home_gray.svg';
 import ScrapIcon from '@/public/assets/ico_Sheet_Line.svg';
 import ScrapIconGray from '@/public/assets/ico_Sheet_Line_gray.svg';
 import { useMenuStore } from '@/stores/menu';
+import { useFilterStore } from '@/stores/filter';
 
 const menuContents = [
   {
@@ -25,8 +26,19 @@ const menuContents = [
 function Menu() {
   const { focusedMenu, setFocusedMenu } = useMenuStore();
 
+  const resetFilter = useFilterStore(state => {
+    return {
+      setHeadline: state.setHeadline,
+      setDate: state.setDate,
+      setCountries: state.setCountries,
+    };
+  });
+
   const handleMenuClick = (id: number) => {
     setFocusedMenu(id);
+    resetFilter.setHeadline('');
+    resetFilter.setDate('');
+    resetFilter.setCountries([]);
   };
 
   return (
