@@ -6,6 +6,7 @@ import Main from '@/components/layout/Main';
 import Menu from '@/components/layout/Menu';
 import { useScrappedStore } from '@/stores/scrappedList';
 import { useMenuStore } from '@/stores/menu';
+import FilterModal from '@/components/modal/FilterModal';
 
 function Layout() {
   const { scrappedIds } = useScrappedStore();
@@ -13,6 +14,7 @@ function Layout() {
 
   return (
     <SContainer>
+      <FilterModal />
       {(scrappedIds.length > 0 || focusedMenu == 1) && <Header />}
       <Main />
       <Menu />

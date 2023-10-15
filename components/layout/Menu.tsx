@@ -64,6 +64,7 @@ export const SLayout = styled.div`
   display: flex;
   flex-direction: row;
   box-shadow: 0 -4px 6px 0 rgba(0, 28, 36, 0.2);
+  z-index: 200;
 `;
 
 export const SButtonDiv = styled.div<{ $isActive: boolean }>`

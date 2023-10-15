@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Search from '@/public/assets/search.svg';
-import Calender from '@/public/assets/calendar-check.svg';
+import SearchCheck from '@/public/assets/search-check.svg';
+import Calender from '@/public/assets/calendar.svg';
+import CalenderCheck from '@/public/assets/calendar-check.svg';
 import FilterBox from '@/components/common/FilterBox';
-
+import { useFilterStore } from '@/stores/filter';
 interface EachFilter {
   title: string;
   image?: any;
+  checkImage?: any;
+  isChecked: boolean;
 }
 
 interface Filters {
@@ -18,13 +22,20 @@ interface Filters {
 }
 
 function Header() {
-  const [filterData, setFilterData] = useState<Filters[]>([
+  const toggleModal = useFilterStore(state => state.toggleModal);
+  const headline = useFilterStore(state => state.headline); // getState() 제거
+  const date = useFilterStore(state => state.date); // getState() 제거
+  const countries = useFilterStore(state => state.countries); // getState() 제거
+
+  const filterData: Filters[] = [
     {
       id: 1,
       data: {
         search: {
-          title: '전체 헤드라인',
+          title: headline !== '' ? headline : '전체 헤드라인',
           image: Search,
+          checkImage: SearchCheck,
+          isChecked: headline !== '' ? true : false,
         },
       },
     },
@@ -32,8 +43,10 @@ function Header() {
       id: 2,
       data: {
         date: {
-          title: '전체 날짜',
+          title: date !== '' ? date : '전체 날짜',
           image: Calender,
+          checkImage: CalenderCheck,
+          isChecked: date !== '' ? true : false,
         },
       },
     },
@@ -41,17 +54,32 @@ function Header() {
       id: 3,
       data: {
         country: {
-          title: '전체 국가',
+          title:
+            countries.length !== 0
+              ? countries.length === 1
+                ? `${countries[0]}`
+                : `${countries[0]} 외 ${countries.length - 1}`
+              : '전체 국가',
+          isChecked: countries.length > 0 ? true : false,
         },
       },
     },
-  ]);
+  ];
 
   return (
     <SLayout>
       {filterData.map(filter => {
         const key = Object.keys(filter.data)[0];
-        return <FilterBox key={filter.id} type='headerFilter' {...filter.data[key]} />;
+        return (
+          <FilterBox
+            key={filter.id}
+            type='headerFilter'
+            title={filter.data[key].title}
+            image={filter.data[key].isChecked ? filter.data[key].checkImage : filter.data[key].image}
+            isChecked={filter.data[key].isChecked}
+            onClick={toggleModal}
+          />
+        );
       })}
     </SLayout>
   );
@@ -71,4 +99,5 @@ export const SLayout = styled.header`
   background-color: white;
   box-shadow: 0 4px 6px 0 rgba(0, 28, 36, 0.1);
   z-index: 10;
+  overflow-x: auto;
 `;

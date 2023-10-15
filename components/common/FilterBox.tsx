@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { useFilterStore } from '@/stores/filter';
 
 interface EachFilterProps {
   type: string;
   title: string;
   image?: any;
+  isChecked: boolean;
+  onClick: () => void;
 }
 
-function FilterBox({ type, title, image }: EachFilterProps) {
+function FilterBox({ type, title, image, isChecked, onClick }: EachFilterProps) {
   return (
-    <SEachFilterDiv $type={type === 'headerFilter'}>
+    <SEachFilterDiv $type={type === 'headerFilter'} $isChecked={isChecked} onClick={onClick}>
       {image && <Image src={image} alt='filter icon' width={16} height={16} />}
       <span>{title}</span>
     </SEachFilterDiv>
@@ -19,19 +22,46 @@ function FilterBox({ type, title, image }: EachFilterProps) {
 
 export default FilterBox;
 
-export const SEachFilterDiv = styled.div<{ $type: boolean }>`
+export const SEachFilterDiv = styled.div<{ $type: boolean; $isChecked: boolean }>`
+  /* 공통 스타일 */
   max-width: 9rem;
   height: 2.125rem;
-  padding: 0.3125rem 0.75rem 0.3125rem 0.75rem;
+  padding: 0.3125rem 0.75rem;
   margin-right: 0.4375rem;
-  padding-right: 0.75rem;
   border-radius: 1.875rem;
-  border: ${({ $type }) => ($type ? '1px solid #c4c4c4' : '1px solid var(--White60, #F2F2F2)')};
   justify-content: center;
   align-items: center;
   gap: 4px;
   display: inline-flex;
   font-size: 14px;
-  color: #6d6d6d;
   cursor: pointer;
+
+  & > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  border: ${({ $type, $isChecked }) => {
+    if ($type && $isChecked) return '1px solid var(--Sub---BlueSky, #82B0F4)';
+    return $type ? '1px solid #c4c4c4' : '1px solid var(--White60, #F2F2F2)';
+  }};
+  color: ${({ $type, $isChecked }) => {
+    if ($type && $isChecked) return 'var(--Blue---Main, #3478F6)';
+    if (!$type && $isChecked) return 'var(--White-100, #FFF)';
+    return '#6d6d6d';
+  }};
+  background: ${({ $type, $isChecked }) => {
+    if (!$type && $isChecked) return 'var(--Sub---BlueSky, #82B0F4)';
+    return 'none';
+  }};
 `;
+
+// type 이 true 일 때 check가 true일 시
+// color: var(--Blue---Main, #3478F6);
+// border: 1px solid var(--Sub---BlueSky, #82B0F4);
+
+// type이 false일 때 check가 true일 시
+// border: 1px solid var(--White60, #F2F2F2);
+// background: var(--Sub---BlueSky, #82B0F4);
+// color: var(--White-100, #FFF);
