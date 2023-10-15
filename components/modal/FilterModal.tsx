@@ -170,7 +170,7 @@ const SInputCountryContainer = styled.div`
   height: 6.75rem;
   display: flex;
   flex-direction: column;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.3rem;
 `;
 
 const SInputTitle = styled.span`
@@ -186,22 +186,18 @@ const SInputTitle = styled.span`
 
 const SInput = styled(Input)`
   display: flex;
-  width: 18.4375rem;
-  height: 2.75rem;
+  width: 100%;
   padding: 0.625rem 1.25rem;
   align-items: center;
-  gap: 11.3125rem;
   border-radius: 0.5rem;
   border: 1px solid var(--Gray, #c4c4c4);
 `;
 
 const SDatePicker = styled(DatePicker)`
   display: flex;
-  width: 18.4375rem;
-  height: 2.75rem;
+  width: 100%;
   padding: 0.625rem 1.25rem;
   align-items: center;
-  gap: 11.3125rem;
   border-radius: 0.5rem;
   border: 1px solid var(--Gray, #c4c4c4);
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import StarFill from '@/public/assets/star-fill.svg';
@@ -22,8 +22,10 @@ function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped 
   const handleScrapToggle = () => {
     if (isScrapped) {
       removeScrap(_id);
+      alert('스크랩에서 삭제되었습니다!');
     } else {
       addScrap(_id);
+      alert('스크랩에 저장되었습니다!');
     }
   };
 

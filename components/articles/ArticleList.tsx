@@ -28,9 +28,9 @@ function ArticleList() {
   //       if (lastPage?.nextPage == totalPage) return false;
   //       return lastPage?.nextPage;
   //     },
-  //     // retry: 3, // 최대 3회 재시도
-  //     // retryDelay: attemptIndex => Math.min(attemptIndex * 1000, 3000), // 재시도 간격 설정
-  //     // refetchInterval: 1000 * 12, // 12초마다 자동으로 새로고침
+  //     retry: 3, // 최대 3회 재시도
+  //     retryDelay: attemptIndex => Math.min(attemptIndex * 1000, 3000), // 재시도 간격 설정
+  //     refetchInterval: 1000 * 12, // 12초마다 자동으로 새로고침
   //   },
   // );
 
@@ -84,8 +84,8 @@ function ArticleList() {
             ))}
           </div>
         )}
-        {/* {isFetching && <Loading />} */}
-        {/* <STarget ref={setTarget} /> */}
+        {/* {isFetching && <Loading />}
+        <STarget ref={setTarget} /> */}
       </SLayout>
     </>
   );
