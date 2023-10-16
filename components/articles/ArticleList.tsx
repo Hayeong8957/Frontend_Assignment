@@ -10,35 +10,38 @@ import { v4 as uuidv4 } from 'uuid';
 import Loading from '@/components/common/Loading';
 import { useScrappedStore } from '@/stores/scrappedList';
 import { useMenuStore } from '@/stores/menu';
+import { useFilterStore } from '@/stores/filter';
 
 // mock data -> api가 제대로 동작하지 않을 때
-import { data } from './articleMockData';
+// import { data } from './articleMockData';
 
 function ArticleList() {
   const { scrappedIds } = useScrappedStore();
   const { focusedMenu } = useMenuStore();
+  const { headline, date, countries } = useFilterStore();
+
+  console.log(date);
 
   /*********** 무한 스크롤 구현 **********/
-  // const { data, hasNextPage, fetchNextPage, isFetching } = useInfiniteQuery(
-  //   ['articles'],
-  //   ({ pageParam }) => getArticles({ pageParam }),
-  //   {
-  //     getNextPageParam: lastPage => {
-  //       const totalPage = 100;
-  //       if (lastPage?.nextPage == totalPage) return false;
-  //       return lastPage?.nextPage;
-  //     },
-  //     retry: 3, // 최대 3회 재시도
-  //     retryDelay: attemptIndex => Math.min(attemptIndex * 1000, 3000), // 재시도 간격 설정
-  //     refetchInterval: 1000 * 12, // 12초마다 자동으로 새로고침
-  //   },
-  // );
+  const { data, hasNextPage, fetchNextPage, isFetching } = useInfiniteQuery(
+    ['articles', { headline, date, countries }],
+    ({ pageParam }) => getArticles({ pageParam, headline, date, countries }),
+    {
+      getNextPageParam: lastPage => {
+        const totalPage = 100;
+        if (lastPage?.nextPage == totalPage) return false;
+        return lastPage?.nextPage;
+      },
+    },
+  );
 
-  // const { setTarget } = useIntersectionObserver({
-  //   hasNextPage,
-  //   fetchNextPage,
-  // });
+  const { setTarget } = useIntersectionObserver({
+    hasNextPage,
+    fetchNextPage,
+  });
 
+  // 스크랩탭을 눌렀을 때 요소가 1개임에도 불구하고 계속 무한 fetching을 불러오고 있어.
+  // 스크랩탭일 때는 이미 불러온 요소들에 대한 스크랩된 리스트를 보여주는 거잖아. 스크랩탭일 때는 무한스크롤이 적용되지 않게 도와줘
   return (
     <>
       <SLayout>
@@ -84,8 +87,8 @@ function ArticleList() {
             ))}
           </div>
         )}
-        {/* {isFetching && <Loading />}
-        <STarget ref={setTarget} /> */}
+        {isFetching && focusedMenu === 1 && <Loading />}
+        {focusedMenu === 1 && <STarget ref={setTarget} />}
       </SLayout>
     </>
   );
@@ -95,6 +98,7 @@ export default ArticleList;
 
 export const SLayout = styled.div`
   width: 100%;
+  height: 100vh;
   padding: 0rem 1.25rem;
   padding-top: 5rem;
   padding-bottom: 6.5625rem;
