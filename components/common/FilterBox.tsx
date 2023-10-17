@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { useFilterStore } from '@/stores/filter';
 
 interface EachFilterProps {
   type: string;
@@ -55,12 +54,3 @@ export const SEachFilterDiv = styled.div<{ $type: boolean; $isChecked: boolean }
     return 'none';
   }};
 `;
-
-// type 이 true 일 때 check가 true일 시
-// color: var(--Blue---Main, #3478F6);
-// border: 1px solid var(--Sub---BlueSky, #82B0F4);
-
-// type이 false일 때 check가 true일 시
-// border: 1px solid var(--White60, #F2F2F2);
-// background: var(--Sub---BlueSky, #82B0F4);
-// color: var(--White-100, #FFF);

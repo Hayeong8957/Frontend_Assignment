@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Image from 'next/image';
 import Search from '@/public/assets/search.svg';
 import SearchCheck from '@/public/assets/search-check.svg';
 import Calender from '@/public/assets/calendar.svg';

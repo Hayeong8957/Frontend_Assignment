@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { InfiniteQueryObserverResult } from '@tanstack/react-query';
 
-//hook props interface
 interface IuseIntersectionObserverProps {
   threshold?: number;
   hasNextPage: boolean | undefined;
@@ -25,15 +24,8 @@ function useIntersectionObserver({ threshold = 0.3, hasNextPage, fetchNextPage }
             fetchNextPage();
           }
         });
-      }, 300); // 300ms 디바운스
+      }, 300); // 300ms 디바운스 -> 429 error 안나게
     };
-    // const observerCallback: IntersectionObserverCallback = entries => {
-    //   entries.forEach(entry => {
-    //     if (entry.isIntersecting && hasNextPage) {
-    //       fetchNextPage();
-    //     }
-    //   });
-    // };
 
     //ointersection observer 인스턴스 생성
     const observer = new IntersectionObserver(observerCallback, {
