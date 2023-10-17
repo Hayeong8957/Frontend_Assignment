@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import StarFill from '@/public/assets/star-fill.svg';
@@ -19,7 +20,8 @@ interface ArticleProps {
 function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped }: ArticleProps) {
   const { addScrap, removeScrap } = useScrappedStore();
 
-  const handleScrapToggle = () => {
+  const handleScrapToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isScrapped) {
       removeScrap(_id);
       alert('스크랩에서 삭제되었습니다!');
@@ -30,24 +32,26 @@ function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped 
   };
 
   return (
-    <SLayout>
-      <STitleDiv>
-        <STitleText>{headline}</STitleText>
-        <SIconBox onClick={handleScrapToggle}>
-          {isScrapped && <Image src={StarFill} alt='starFill' width={16} height={16} />}
-          {!isScrapped && <Image src={Star} alt='star' width={16} height={16} />}
-        </SIconBox>
-      </STitleDiv>
-      <SInfoDiv>
-        <SInfoLeft>
-          <SInfoText>{source}</SInfoText>
-          <SInfoKicker>{kicker?.slice(3)}</SInfoKicker>
-        </SInfoLeft>
-        <SInfoRight>
-          <SInfoDate>{formatDate(pub_date)}</SInfoDate>
-        </SInfoRight>
-      </SInfoDiv>
-    </SLayout>
+    <Link href={web_url} passHref>
+      <SLayout>
+        <STitleDiv>
+          <STitleText>{headline}</STitleText>
+          <SIconBox onClick={handleScrapToggle}>
+            {isScrapped && <Image src={StarFill} alt='starFill' width={16} height={16} />}
+            {!isScrapped && <Image src={Star} alt='star' width={16} height={16} />}
+          </SIconBox>
+        </STitleDiv>
+        <SInfoDiv>
+          <SInfoLeft>
+            <SInfoText>{source}</SInfoText>
+            <SInfoKicker>{kicker?.slice(3)}</SInfoKicker>
+          </SInfoLeft>
+          <SInfoRight>
+            <SInfoDate>{formatDate(pub_date)}</SInfoDate>
+          </SInfoRight>
+        </SInfoDiv>
+      </SLayout>
+    </Link>
   );
 }
 

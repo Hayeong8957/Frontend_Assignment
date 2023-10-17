@@ -95,6 +95,8 @@ export const SLayout = styled.header`
   height: 3.75rem;
   display: flex;
   flex-direction: row;
+  /* flex-wrap: wrap; */
+  gap: 0.5rem;
   align-items: center;
   background-color: white;
   box-shadow: 0 4px 6px 0 rgba(0, 28, 36, 0.1);

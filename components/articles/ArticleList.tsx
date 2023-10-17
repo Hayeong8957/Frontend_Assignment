@@ -35,13 +35,12 @@ function ArticleList() {
     },
   );
 
+
   const { setTarget } = useIntersectionObserver({
     hasNextPage,
     fetchNextPage,
   });
 
-  // 스크랩탭을 눌렀을 때 요소가 1개임에도 불구하고 계속 무한 fetching을 불러오고 있어.
-  // 스크랩탭일 때는 이미 불러온 요소들에 대한 스크랩된 리스트를 보여주는 거잖아. 스크랩탭일 때는 무한스크롤이 적용되지 않게 도와줘
   return (
     <>
       <SLayout>

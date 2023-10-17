@@ -27,7 +27,6 @@ export const SEachFilterDiv = styled.div<{ $type: boolean; $isChecked: boolean }
   max-width: 9rem;
   height: 2.125rem;
   padding: 0.3125rem 0.75rem;
-  margin-right: 0.4375rem;
   border-radius: 1.875rem;
   justify-content: center;
   align-items: center;
