@@ -20,8 +20,6 @@ function ArticleList() {
   const { focusedMenu } = useMenuStore();
   const { headline, date, countries } = useFilterStore();
 
-  console.log(date);
-
   /*********** 무한 스크롤 구현 **********/
   const { data, hasNextPage, fetchNextPage, isFetching } = useInfiniteQuery(
     ['articles', { headline, date, countries }],
@@ -34,7 +32,6 @@ function ArticleList() {
       },
     },
   );
-
 
   const { setTarget } = useIntersectionObserver({
     hasNextPage,

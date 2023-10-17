@@ -1,8 +1,16 @@
 import { IAPIReturnData } from '@/types/article';
 import returnNextDate from '@/utils/returnNextDate';
+import convertCountryList from '@/utils/convertCountryList';
 
 const BASE_URL = '/api-url';
 let lastRequestTime = 0; // 마지막 요청 시간을 저장할 변수
+
+interface IParams {
+  pageParam: number; // 페이지 -> 무한스크롤
+  headline?: string;
+  date?: string;
+  countries?: string[];
+}
 
 const fetchClient = async (url: string, options: RequestInit) => {
   return fetch(url, {
@@ -13,12 +21,44 @@ const fetchClient = async (url: string, options: RequestInit) => {
   });
 };
 
-interface IParams {
-  pageParam: number; // 페이지 -> 무한스크롤
-  headline?: string;
-  date?: string;
-  countries?: string[];
-}
+// fq를 설정하는 함수
+const buildFq = (headline?: string, date?: string, countries?: string[]) => {
+  let fq = '';
+  const countryList = convertCountryList(countries);
+  const countriesParams = countryList?.map(item => `"${item}"`).join(', ');
+
+  if (headline && date && countries?.length !== 0) {
+    fq = `headline:("${headline}") AND pub_date:("${returnNextDate(
+      date,
+    )}") AND glocations.contains(${countriesParams})`;
+  } else if (headline && date) {
+    fq = `headline:("${headline}") AND pub_date:("${returnNextDate(date)}")`;
+  } else if (headline && countries?.length !== 0) {
+    fq = `headline:("${headline}") AND glocations.contains(${countriesParams})`;
+  } else if (date && countries?.length !== 0) {
+    fq = `pub_date:("${returnNextDate(date)}") AND glocations.contains(${countriesParams})`;
+  } else if (headline) {
+    fq = `headline:("${headline}")`;
+  } else if (date) {
+    fq = `pub_date:("${returnNextDate(date)}")`;
+  } else if (countries && countries?.length !== 0) {
+    fq = `glocations.contains(${countriesParams})`;
+  }
+
+  return fq;
+};
+
+// 레이트 리미트 관리 함수
+const handleRateLimit = async (lastRequestTime: number) => {
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
+
+  if (timeSinceLastRequest < 12000) {
+    await new Promise(resolve => setTimeout(resolve, 12000 - timeSinceLastRequest));
+  }
+
+  return Date.now();
+};
 
 // 모든 Article 데이터 가져오기 -> 무한스크롤으로 구현하기 위해 page
 export const getArticles = async ({
@@ -28,16 +68,8 @@ export const getArticles = async ({
   countries,
 }: IParams): Promise<IAPIReturnData | null> => {
   try {
-    /***** 무한 스크롤 rate-limit 설정 *****/
-    const now = Date.now();
-    const timeSinceLastRequest = now - lastRequestTime;
-
-    if (timeSinceLastRequest < 12000) {
-      // 12초 이내에 다시 요청하는 경우
-      await new Promise(resolve => setTimeout(resolve, 12000 - timeSinceLastRequest));
-    }
-
-    lastRequestTime = Date.now(); // 요청 시간 업데이트
+    lastRequestTime = await handleRateLimit(lastRequestTime);
+    // 요청 시간 업데이트
 
     /*********** 필터링 조건 동적 생성 ************/
     const queryParams = new URLSearchParams({
@@ -46,16 +78,7 @@ export const getArticles = async ({
       'api-key': String(process.env.NEXT_PUBLIC_API_KEY),
     });
 
-    let fq = '';
-
-    if (headline && date) {
-      fq = `headline:("${headline}") AND pub_date:("${returnNextDate(date)}")`;
-    } else if (headline) {
-      fq = `headline:("${headline}")`;
-    } else if (date) {
-      fq = `pub_date:("${returnNextDate(date)}")`; // 하루 뒤의 날짜로 설정
-    }
-
+    const fq = buildFq(headline, date, countries);
     if (fq) {
       queryParams.append('fq', fq);
     }
@@ -73,7 +96,6 @@ export const getArticles = async ({
 
     if (allArticlesData.ok) {
       const allArticlesJson = await allArticlesData.json();
-      console.log('nextPage : ', pageParam + 1);
       return { articles: allArticlesJson.response.docs, nextPage: pageParam + 1 };
     } else {
       return null;

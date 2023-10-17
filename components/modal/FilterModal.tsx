@@ -7,14 +7,14 @@ import type { DatePickerProps } from 'antd';
 import dayjs from 'dayjs';
 
 const countryList = [
-  { id: '1', country: '대한민국', type: 'modalFilter' },
-  { id: '2', country: '중국', type: 'modalFilter' },
-  { id: '3', country: '일본', type: 'modalFilter' },
-  { id: '4', country: '미국', type: 'modalFilter' },
-  { id: '5', country: '북한', type: 'modalFilter' },
-  { id: '6', country: '러시아', type: 'modalFilter' },
-  { id: '7', country: '프랑스', type: 'modalFilter' },
-  { id: '8', country: '영국', type: 'modalFilter' },
+  { id: '1', country: '대한민국', glocation: 'South Korea', type: 'modalFilter' },
+  { id: '2', country: '중국', glocation: 'China', type: 'modalFilter' },
+  { id: '3', country: '일본', glocation: 'Japan', type: 'modalFilter' },
+  { id: '4', country: '미국', glocation: 'United States', type: 'modalFilter' },
+  { id: '5', country: '북한', glocation: 'North Korea', type: 'modalFilter' },
+  { id: '6', country: '러시아', glocation: 'Russia', type: 'modalFilter' },
+  { id: '7', country: '프랑스', glocation: 'France', type: 'modalFilter' },
+  { id: '8', country: '영국', glocation: 'England', type: 'modalFilter' },
 ];
 
 function FilterModal() {
