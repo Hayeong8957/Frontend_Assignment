@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { MyPersist } from '@/types/generic';
 
 interface IScrappedState {
   scrappedIds: string[];
@@ -8,7 +9,7 @@ interface IScrappedState {
 }
 
 export const useScrappedStore = create<IScrappedState>(
-  persist(
+  (persist as MyPersist<IScrappedState>)(
     set => ({
       scrappedIds: [],
       addScrap: (id: string) => set((state: IScrappedState) => ({ scrappedIds: [...state.scrappedIds, id] })),
@@ -18,5 +19,5 @@ export const useScrappedStore = create<IScrappedState>(
     {
       name: 'scrapped-storage',
     },
-  ) as any, // 명시적으로 타입 어설션을 사용해서 컴파일러에게 안전하다고 알려줌
+  ),
 );
