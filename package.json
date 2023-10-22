@@ -17,7 +17,6 @@
     "next": "^12.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-loader-spinner": "^5.4.5",
     "styled-components": "^6.0.8",
     "uuid": "^9.0.1",
     "zustand": "^4.4.3"

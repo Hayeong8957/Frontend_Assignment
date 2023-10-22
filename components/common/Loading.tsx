@@ -1,11 +1,11 @@
 import React from 'react';
-import { RotatingLines } from 'react-loader-spinner';
+import { Spin } from 'antd';
 import styled from 'styled-components';
 
 function Loading() {
   return (
     <SLayout>
-      <RotatingLines strokeColor='grey' strokeWidth='5' animationDuration='0.75' width='30' visible={true} />
+      <Spin size='large' />
     </SLayout>
   );
 }
@@ -18,5 +18,5 @@ const SLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.625rem;
+  margin-top: 1rem;
 `;
