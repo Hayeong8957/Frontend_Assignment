@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import HomeIcon from '@/public/assets/ico_Home.svg';
-import HomeIconGray from '@/public/assets/ico_Home_gray.svg';
-import ScrapIcon from '@/public/assets/ico_Sheet_Line.svg';
-import ScrapIconGray from '@/public/assets/ico_Sheet_Line_gray.svg';
+import importSvg from '@/public/assets/importSvg';
 import { useMenuStore } from '@/stores/menu';
 import { useFilterStore } from '@/stores/filter';
 
@@ -12,14 +9,14 @@ const menuContents = [
   {
     id: 1,
     name: '홈',
-    icon: HomeIcon,
-    grayIcon: HomeIconGray,
+    icon: importSvg('Home'),
+    grayIcon: importSvg('HomeGray'),
   },
   {
     id: 2,
     name: '스크랩',
-    icon: ScrapIcon,
-    grayIcon: ScrapIconGray,
+    icon: importSvg('SheetLine'),
+    grayIcon: importSvg('SheetLineGray'),
   },
 ];
 

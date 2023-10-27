@@ -23,18 +23,10 @@ function FilterModal() {
     date: '',
   });
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const currentHeadline = useFilterStore.getState().headline;
-  const currentDate = useFilterStore.getState().date;
-  const currentCountries = useFilterStore.getState().countries;
-
-  const isModalOpen = useFilterStore(state => state.isModalOpen);
-  const toggleModal = useFilterStore(state => state.toggleModal);
-  const setHeadline = useFilterStore(state => state.setHeadline);
-  const setDate = useFilterStore(state => state.setDate);
-  const setCountries = useFilterStore(state => state.setCountries);
+  const { headline, date, countries } = useFilterStore.getState();
+  const { isModalOpen, toggleModal, setHeadline, setDate, setCountries } = useFilterStore(state => state);
 
   // 버튼을 눌러 전역 상태에 저장시킨것이 아니면 모달이 닫힐 때 상태를 초기화
-  //
   useEffect(() => {
     if (!isModalOpen) {
       setInputValue({
@@ -44,10 +36,10 @@ function FilterModal() {
       setSelectedCountries([]);
     }
     setInputValue({
-      headLine: currentHeadline,
-      date: currentDate,
+      headLine: headline,
+      date: date,
     });
-    setSelectedCountries(currentCountries);
+    setSelectedCountries(countries);
   }, [isModalOpen]);
 
   if (!isModalOpen) {

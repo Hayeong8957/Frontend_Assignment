@@ -1,5 +1,5 @@
-function convertCountryList(countries?: string[]) {
-  if (countries?.length === 0) return;
+function convertCountryList(countries: string[] = []) {
+  if (countries.length === 0) return;
 
   const countryMap: { [key: string]: string } = {
     대한민국: 'South Korea',
@@ -12,7 +12,7 @@ function convertCountryList(countries?: string[]) {
     영국: 'England',
   };
 
-  return countries?.map(country => countryMap[country]);
+  return countries.map(country => countryMap[country]);
 }
 
 export default convertCountryList;
