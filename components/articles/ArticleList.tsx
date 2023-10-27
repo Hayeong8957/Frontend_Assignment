@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { getArticles } from '@/pages/api/article';
 import Article from '@/components/articles/Article';
 import NoScrapped from '@/components/layout/NoScrapped';
@@ -11,6 +12,7 @@ import Loading from '@/components/common/Loading';
 import { useScrappedStore } from '@/stores/scrappedList';
 import { useMenuStore } from '@/stores/menu';
 import { useFilterStore } from '@/stores/filter';
+import { useScrollStore } from '@/stores/scroll';
 
 // mock data -> api가 제대로 동작하지 않을 때
 // import { data } from './articleMockData';
@@ -19,6 +21,8 @@ function ArticleList() {
   const { scrappedIds } = useScrappedStore();
   const { focusedMenu } = useMenuStore();
   const { headline, date, countries } = useFilterStore();
+  const { scrollY, setScrollY } = useScrollStore();
+  const router = useRouter();
 
   /*********** 무한 스크롤 구현 **********/
   const { data, hasNextPage, fetchNextPage, isFetching } = useInfiniteQuery(
@@ -30,6 +34,7 @@ function ArticleList() {
         if (lastPage?.nextPage == totalPage) return false;
         return lastPage?.nextPage;
       },
+      refetchOnWindowFocus: false,
     },
   );
 
@@ -37,6 +42,10 @@ function ArticleList() {
     hasNextPage,
     fetchNextPage,
   });
+
+  useEffect(() => {
+    if (scrollY !== 0) window.scrollTo(0, scrollY);
+  }, [router]);
 
   return (
     <>
@@ -103,5 +112,5 @@ export const SLayout = styled.div`
 
 export const STarget = styled.div`
   width: 100%;
-  height: 1.875rem;
+  height: 0.5rem;
 `;

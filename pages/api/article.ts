@@ -53,10 +53,12 @@ const handleRateLimit = async (lastRequestTime: number) => {
   const now = Date.now();
   const timeSinceLastRequest = now - lastRequestTime;
 
+  // 마지막 요청으로부터 12초가 지나지 않았다면, 12초가 될 때까지 대기
   if (timeSinceLastRequest < 12000) {
     await new Promise(resolve => setTimeout(resolve, 12000 - timeSinceLastRequest));
   }
 
+  // 레이트 리미트 조건을 만족하면 함수는 현재 시간을 다시 측정해서 반환
   return Date.now();
 };
 

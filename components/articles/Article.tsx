@@ -1,11 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styled from 'styled-components';
 import StarFill from '@/public/assets/star-fill.svg';
 import Star from '@/public/assets/star.svg';
 import formatDate from '@/utils/formatDate';
 import { useScrappedStore } from '@/stores/scrappedList';
+import { useScrollStore } from '@/stores/scroll';
+import { useNewsUrlStore } from '@/stores/news';
 
 interface ArticleProps {
   _id: string;
@@ -19,6 +21,9 @@ interface ArticleProps {
 
 function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped }: ArticleProps) {
   const { addScrap, removeScrap } = useScrappedStore();
+  const { setScrollY } = useScrollStore();
+  const { setNewsUrl } = useNewsUrlStore();
+  const router = useRouter();
 
   const handleScrapToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -31,27 +36,33 @@ function Article({ _id, headline, source, kicker, pub_date, web_url, isScrapped 
     }
   };
 
+  const handleClickArticle = () => {
+    console.log(web_url);
+    console.log(window.scrollY);
+    setScrollY(window.scrollY);
+    setNewsUrl(web_url);
+    router.push('NYTimesPage');
+  };
+
   return (
-    <Link href={web_url} passHref>
-      <SLayout>
-        <STitleDiv>
-          <STitleText>{headline}</STitleText>
-          <SIconBox onClick={handleScrapToggle}>
-            {isScrapped && <Image src={StarFill} alt='starFill' width={16} height={16} />}
-            {!isScrapped && <Image src={Star} alt='star' width={16} height={16} />}
-          </SIconBox>
-        </STitleDiv>
-        <SInfoDiv>
-          <SInfoLeft>
-            <SInfoText>{source}</SInfoText>
-            <SInfoKicker>{kicker?.slice(3)}</SInfoKicker>
-          </SInfoLeft>
-          <SInfoRight>
-            <SInfoDate>{formatDate(pub_date)}</SInfoDate>
-          </SInfoRight>
-        </SInfoDiv>
-      </SLayout>
-    </Link>
+    <SLayout onClick={handleClickArticle}>
+      <STitleDiv>
+        <STitleText>{headline}</STitleText>
+        <SIconBox onClick={handleScrapToggle}>
+          {isScrapped && <Image src={StarFill} alt='starFill' width={16} height={16} loading='lazy' />}
+          {!isScrapped && <Image src={Star} alt='star' width={16} height={16} loading='lazy' />}
+        </SIconBox>
+      </STitleDiv>
+      <SInfoDiv>
+        <SInfoLeft>
+          <SInfoText>{source}</SInfoText>
+          <SInfoKicker>{kicker?.slice(3)}</SInfoKicker>
+        </SInfoLeft>
+        <SInfoRight>
+          <SInfoDate>{formatDate(pub_date)}</SInfoDate>
+        </SInfoRight>
+      </SInfoDiv>
+    </SLayout>
   );
 }
 
