@@ -21,30 +21,25 @@ const fetchClient = async (url: string, options: RequestInit) => {
   });
 };
 
-// fq를 설정하는 함수
+// fq를 설정하는 함수 start
+// 매개변수 처리하는 함수
+const buildParams = (key: string, value: any, formatter?: (val: any) => string) => {
+  if (!value) return '';
+  const formattedValue = formatter ? formatter(value) : value;
+  return `${key}:("${formattedValue}")`;
+};
+
 const buildFq = (headline?: string, date?: string, countries?: string[]) => {
-  let fq = '';
   const countryList = convertCountryList(countries);
   const countriesParams = countryList?.map(item => `"${item}"`).join(', ');
 
-  if (headline && date && countries?.length !== 0) {
-    fq = `headline:("${headline}") AND pub_date:("${returnNextDate(
-      date,
-    )}") AND glocations.contains(${countriesParams})`;
-  } else if (headline && date) {
-    fq = `headline:("${headline}") AND pub_date:("${returnNextDate(date)}")`;
-  } else if (headline && countries?.length !== 0) {
-    fq = `headline:("${headline}") AND glocations.contains(${countriesParams})`;
-  } else if (date && countries?.length !== 0) {
-    fq = `pub_date:("${returnNextDate(date)}") AND glocations.contains(${countriesParams})`;
-  } else if (headline) {
-    fq = `headline:("${headline}")`;
-  } else if (date) {
-    fq = `pub_date:("${returnNextDate(date)}")`;
-  } else if (countries && countries?.length !== 0) {
-    fq = `glocations.contains(${countriesParams})`;
-  }
+  const params = [
+    buildParams('headline', headline),
+    buildParams('pub_date', date, returnNextDate),
+    countriesParams ? `glocations.contains(${countriesParams})` : '',
+  ];
 
+  const fq = params.filter(Boolean).join(' AND ');
   return fq;
 };
 

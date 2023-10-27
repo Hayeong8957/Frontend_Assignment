@@ -30,7 +30,7 @@ function ArticleList() {
     ({ pageParam }) => getArticles({ pageParam, headline, date, countries }),
     {
       getNextPageParam: lastPage => {
-        const totalPage = 100;
+        const totalPage = 1000;
         if (lastPage?.nextPage == totalPage) return false;
         return lastPage?.nextPage;
       },
